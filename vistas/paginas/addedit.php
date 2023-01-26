@@ -1,7 +1,6 @@
 <?php
 // Get user data
 $userData = array();
-
 if(!empty($_GET['id'])){
     $id = $_GET['id'];
     $userData = ControladorCRUD::ctrSee($id);
@@ -10,6 +9,13 @@ $userData = !empty($sessData['userData'])?$sessData['userData']:$userData;
 unset($_SESSION['sessData']['userData']);
 
 $actionLabel = !empty($_GET['id'])?'Edit':'Add';
+
+// Get status message from session
+if(!empty($sessData['status']['msg'])){
+    $statusMsg = $sessData['status']['msg'];
+    $statusMsgType = $sessData['status']['type'];
+    unset($_SESSION['sessData']['status']);
+}
 ?>
 <div class="container">
     <h2><?php echo $actionLabel; ?> User</h2>

@@ -19,12 +19,13 @@ class ControladorCRUD{
         return $respuesta;
     }
     public function ctrAddEdit(){
-        // Database table name
-        $tblName = 'users';
-
-        // Set default redirect url
-        $redirectURL = 'index.php';
         if(isset($_POST['userSubmit'])){
+            // Database table name
+            $tblName = 'users';
+
+            // Set default redirect url
+            $redirectURL = 'index.php';
+            
             // Get form fields value
             $name     = trim(strip_tags($_POST['name']));
             $email    = trim(strip_tags($_POST['email']));
@@ -60,7 +61,7 @@ class ControladorCRUD{
                     $dato = new ModeloCRUD();
                     $update = $dato->update($tblName, $userData, $condition);
                     
-                    if($update){
+                    if(!$update){
                         $sessData['status']['type'] = 'success';
                         $sessData['status']['msg'] = 'User data has been updated successfully.';
                         
@@ -71,14 +72,14 @@ class ControladorCRUD{
                         $sessData['status']['msg'] = 'Some problem occurred, please try again.';
                         
                         // Set redirect url
-                        $redirectURL = 'index.php?pagina=addedit';
+                        $redirectURL = 'index.php?pagina=addedit&id='.$_POST['id'];
                     }
                 }else{
                     // Insert user data
                     $dato = new ModeloCRUD();
                     $insert = $dato->insert($tblName, $userData);
                     
-                    if($insert){
+                    if(!$insert){
                         $sessData['status']['type'] = 'success';
                         $sessData['status']['msg'] = 'User data has been added successfully.';
                         
@@ -97,15 +98,17 @@ class ControladorCRUD{
                 $sessData['status']['msg'] = '<p>Please fill all the mandatory fields.</p>'.$errorMsg;
                 
                 // Set redirect url
-                $redirectURL = 'index.php?pagina=addedit';
+                if(!empty($_POST['id'])){
+                    $redirectURL = 'index.php?pagina=addedit&id='.$_POST['id'];
+                }else{ $redirectURL = 'index.php?pagina=addedit'; }
             }
             
             // Store status into the session
             $_SESSION['sessData'] = $sessData;
 
+            // Redirect to the respective page
+            header("Location:".$redirectURL);
         }
-        // Redirect to the respective page
-        header("Location:".$redirectURL);
     }
     public function ctrDelete($id){
         // Database table name

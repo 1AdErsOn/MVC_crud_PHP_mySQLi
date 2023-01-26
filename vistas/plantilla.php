@@ -4,13 +4,6 @@ session_start();
 
 // Retrieve session data
 $sessData = !empty($_SESSION['sessData'])?$_SESSION['sessData']:''; 
- 
-// Get status message from session
-if(!empty($sessData['status']['msg'])){
-    $statusMsg = $sessData['status']['msg'];
-    $statusMsgType = $sessData['status']['type'];
-    unset($_SESSION['sessData']['status']);
-}
 
 //header
 include('includes/header.php');

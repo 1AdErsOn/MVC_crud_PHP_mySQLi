@@ -8,6 +8,13 @@ if(isset($_GET['id'])){
 
 // Fetch the users data
 $users = ControladorCRUD::ctrShow();
+
+// Get status message from session
+if(!empty($sessData['status']['msg'])){
+    $statusMsg = $sessData['status']['msg'];
+    $statusMsgType = $sessData['status']['type'];
+    unset($_SESSION['sessData']['status']);
+}
 ?>
 <div class="container">
 	
