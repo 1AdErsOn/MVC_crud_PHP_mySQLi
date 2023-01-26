@@ -1,5 +1,15 @@
+<?php
+//Delete user
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $registro = new ControladorCRUD();
+    $registro->ctrDelete($id);                    
+}
+
+// Fetch the users data
+$users = ControladorCRUD::ctrShow();
+?>
 <div class="container">
-    <h2>PHP CRUD Operations with MySQL</h2>
 	
     <!-- Display status message -->
     <?php if(!empty($statusMsg) && ($statusMsgType == 'success')){ ?>
@@ -14,10 +24,10 @@
 	
     <div class="row">
         <div class="col-md-12 head">
-            <h5>Users</h5>
+            <h1>Users</h1>
             <!-- Add link -->
             <div class="float-right">
-                <a href="addEdit.php" class="btn btn-success"><i class="plus"></i> New User</a>
+                <a href="index.php?pagina=addedit" class="btn btn-success"><i class="plus"></i> New User</a>
             </div>
         </div>
         
@@ -40,8 +50,8 @@
                     <td><?php echo $row['email']; ?></td>
                     <td><?php echo $row['phone']; ?></td>
                     <td>
-                        <a href="addEdit.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">edit</a>
-                        <a href="userAction.php?action_type=delete&id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">delete</a>
+                        <a href="index.php?pagina=addedit&id=<?php echo $row['id']; ?>" class="btn btn-warning">edit</a>
+                        <a href="index.php?action_type=delete&id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure to delete?');">delete</a>
                     </td>
                 </tr>
                 <?php } }else{ ?>

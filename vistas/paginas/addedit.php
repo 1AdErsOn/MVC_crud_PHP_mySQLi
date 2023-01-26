@@ -1,3 +1,16 @@
+<?php
+// Get user data
+$userData = array();
+
+if(!empty($_GET['id'])){
+    $id = $_GET['id'];
+    $userData = ControladorCRUD::ctrSee($id);
+}
+$userData = !empty($sessData['userData'])?$sessData['userData']:$userData;
+unset($_SESSION['sessData']['userData']);
+
+$actionLabel = !empty($_GET['id'])?'Edit':'Add';
+?>
 <div class="container">
     <h2><?php echo $actionLabel; ?> User</h2>
     
@@ -14,7 +27,7 @@
     
     <div class="row">
          <div class="col-md-6">
-             <form method="post" action="userAction.php">
+             <form method="post">
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Enter name" value="<?php echo !empty($userData['name'])?$userData['name']:''; ?>" >
@@ -31,6 +44,10 @@
                 <a href="index.php" class="btn btn-secondary">Back</a>
                 <input type="hidden" name="id" value="<?php echo !empty($userData['id'])?$userData['id']:''; ?>">
                 <input type="submit" name="userSubmit" class="btn btn-success" value="Submit">
+                <?php
+                $registro = new ControladorCRUD();
+                $registro->ctrAddEdit();
+                ?>
             </form>
         </div>
     </div>
